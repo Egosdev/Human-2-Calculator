@@ -15,7 +15,11 @@ class COLOR:
     
 #SETTINGS
 QUESTIONS_COUNT = 10
-NUMBER_OF_DIGITS = 2
+NUMBER_OF_DIGITS = [2,2]
+IS_DIGITS_INTERVAL = False
+IS_DIGITS_RANDOM = False
+MEMORIZE_MODE = False
+MEMORIZE_SECONDS = 1.2
 
 class Status_Object:
   def __init__(self, question = "", seconds = 0, first_try = -1):
@@ -31,16 +35,17 @@ for i in range (QUESTIONS_COUNT):
 
 def display_status_bar():
     os.system('cls')
-    print("\n")
-    print("   ", end = " ")
+    print("\n   ", end = " ")
     for i in range (QUESTIONS_COUNT):
+        if (i % 10 == 0 and i != 0):
+            print("\n\n   ", end = " ")
         if (status_array[i].first_try == -1):
             print("█", end = " ")
         elif(status_array[i].first_try == True):
             print(f"{COLOR.OKGREEN}█{COLOR.ENDC}", end = " ")
         else:
             print(f"{COLOR.WARNING}█{COLOR.ENDC}", end = " ")
-    print(f" < [{current_question}/{QUESTIONS_COUNT}] Questions\n\n")
+    print(" " * (15 - (i % 10)), f" < [{current_question}/{QUESTIONS_COUNT}] Questions\n\n")
 
 def result_statistics():
     display_status_bar()
@@ -73,7 +78,8 @@ def result_statistics():
     print(f" {COLOR.WARNING} * Average time{COLOR.ENDC}              {COLOR.OKCYAN}{avg_time} sec{COLOR.ENDC}")
     print(f" {COLOR.OKBLUE} * Solved On The First Try{COLOR.ENDC}   {COLOR.OKCYAN}{total_first_try}{COLOR.ENDC} out of {COLOR.OKCYAN}{QUESTIONS_COUNT}{COLOR.ENDC}\n")
     
-    d = str(input(f" If you wanna see details type {COLOR.OKCYAN}d{COLOR.ENDC} or {COLOR.OKCYAN}D{COLOR.ENDC} : "))
+    print(f" {COLOR.HEADER}>|{COLOR.ENDC} Press {COLOR.WARNING}enter{COLOR.ENDC} to continue...")
+    d = str(input(f" If you wanna see details, type {COLOR.OKCYAN}d{COLOR.ENDC} or {COLOR.OKCYAN}D{COLOR.ENDC} : "))
     if (d == "d" or d == "D"):
         result_statistics_details(avg_time)
 
@@ -95,15 +101,48 @@ def result_statistics_details(_avg_time):
 for i in range (QUESTIONS_COUNT):
     current_question = i+1
     display_status_bar()
-    rn_one = random.randint((10 ** (NUMBER_OF_DIGITS-1)), (10 ** (NUMBER_OF_DIGITS))-1)
-    rn_two = random.randint((10 ** (NUMBER_OF_DIGITS-1)), (10 ** (NUMBER_OF_DIGITS))-1)
+    if (IS_DIGITS_INTERVAL):
+        if (IS_DIGITS_RANDOM):
+            random_digits_one = random.randint(NUMBER_OF_DIGITS[0],NUMBER_OF_DIGITS[1])
+            random_digits_two = random.randint(NUMBER_OF_DIGITS[0],NUMBER_OF_DIGITS[1])
+            rn_one = random.randint((10 ** (random_digits_one-1)), (10 ** (random_digits_one))-1)
+            rn_two = random.randint((10 ** (random_digits_two-1)), (10 ** (random_digits_two))-1)
+        else:
+            random_digits = random.randint(NUMBER_OF_DIGITS[0],NUMBER_OF_DIGITS[1])
+            rn_one = random.randint((10 ** (random_digits-1)), (10 ** (random_digits))-1)
+            rn_two = random.randint((10 ** (random_digits-1)), (10 ** (random_digits))-1)
+    else:
+        rn_one = random.randint((10 ** (NUMBER_OF_DIGITS[0]-1)), (10 ** (NUMBER_OF_DIGITS[0]))-1)
+        rn_two = random.randint((10 ** (NUMBER_OF_DIGITS[0]-1)), (10 ** (NUMBER_OF_DIGITS[0]))-1)
     rn_sum = rn_one + rn_two
     start_time = time.time()
     rn_input_info = f"{str(rn_one)} + {str(rn_two)}"
     status_array[i].question = rn_input_info
+    if (MEMORIZE_MODE):
+        print(f"  [{COLOR.OKBLUE}Q{i+1}{COLOR.ENDC}]  {rn_input_info} : ")
+        print("        Memorize!")
+        time.sleep(MEMORIZE_SECONDS)
+        os.system('cls')
+        display_status_bar()
+        print(f"       {COLOR.OKBLUE}a{COLOR.ENDC} or {COLOR.OKBLUE}A{COLOR.ENDC} | Show question again")
     while True:
-        rn_user_input = input(f"  [{COLOR.OKBLUE}Q{i+1}{COLOR.ENDC}]  {rn_input_info} : ")
+        if (MEMORIZE_MODE):
+            print(f"  [{COLOR.OKBLUE}Q{i+1}{COLOR.ENDC}] Your answer: ", end = "")
+        else:
+            print(f"  [{COLOR.OKBLUE}Q{i+1}{COLOR.ENDC}]  {rn_input_info} : ", end = "")
+        rn_user_input = input("")
         try:
+            if (MEMORIZE_MODE and (rn_user_input == "a" or rn_user_input == "A")):
+                status_array[i].first_try = False;
+                os.system('cls')
+                display_status_bar()
+                print(f"  [{COLOR.OKBLUE}Q{i+1}{COLOR.ENDC}]  {rn_input_info} : ")
+                print("        Memorize!")
+                time.sleep(MEMORIZE_SECONDS)
+                os.system('cls')
+                display_status_bar()
+                print(f"       {COLOR.OKBLUE}a{COLOR.ENDC} or {COLOR.OKBLUE}A{COLOR.ENDC} | Show question again")
+                continue
             rn_user_input = int(rn_user_input)
         except ValueError:
             print(f" {COLOR.FAIL}Oops!{COLOR.ENDC} You have to type an {COLOR.FAIL}INTEGER{COLOR.ENDC}")
