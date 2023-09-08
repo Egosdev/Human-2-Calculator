@@ -1,0 +1,10 @@
+addition_settings:
+  cumulative_mode: false
+  is_digit_different: false
+  is_digit_interval: false
+  memorize_mode: false
+  memorize_seconds: 2
+  number_of_digits:
+  - 2
+  - 4
+  questions_count: 7
