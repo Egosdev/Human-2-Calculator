@@ -1,0 +1,4 @@
+title: Fore.RED + 'some red text'
+ques-name: "Adınızı giriniz:"
+ques-age: "Yaşınızı giriniz:"
+ans-name: Selam, $name! hoşgeldin

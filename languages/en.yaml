@@ -1,0 +1,4 @@
+title: Interactive Terminal
+ques-name: "Enter your name:"
+ques-age: "Enter your age:"
+ans-name: Hello, $name! welcome
