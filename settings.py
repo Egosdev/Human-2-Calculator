@@ -43,6 +43,7 @@ hedef_kelime = "BOY"
 renkli_metin = metin.replace(hedef_kelime, f'<span style="color:red;">{hedef_kelime}</span>')
 
 print(renkli_metin)'''
+print("asd")
 name = "Ege"
 print(data["ans-name"])
 input("press any key to continue...")
