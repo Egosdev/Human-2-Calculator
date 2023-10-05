@@ -6,6 +6,10 @@ import ctypes
 import addition
 import yaml
 
+def main():
+    print()
+    #TODO
+
 os.system("")
 def set_font():
     LF_FACESIZE = 32
@@ -127,7 +131,7 @@ def display_settings(settings):
     if (settings['addition_settings']['memorize_mode']):
         print(f"     {COLOR.WARNING}{settings['addition_settings']['memorize_seconds']} sec{COLOR.ENDC}")
     print(f" {COLOR.OKBLUE}[4]{COLOR.ENDC} Cumulative Mode: {COLOR.WARNING}{cumulative_mode_settings_text}{COLOR.ENDC}                  (on/off)")
-
+main()
 while True:
     if (DISPLAY_SCREEN == 0):
         prompt = input(f" {COLOR.HEADER}>|{COLOR.ENDC} Type {COLOR.OKGREEN}[1-4]{COLOR.ENDC} to {COLOR.OKGREEN}select quiz{COLOR.ENDC}, {COLOR.FAIL}[9] {COLOR.ENDC}to {COLOR.FAIL}exit{COLOR.ENDC}: ")
